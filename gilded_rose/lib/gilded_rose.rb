@@ -7,13 +7,15 @@ end
 
 class ItemUpdaterFactory
 	def self.getUpdater(name)		
-		case name
-		when "Aged Brie"
+		case name.downcase
+		when "aged brie"
 			AgedBrieUpdater.new
-		when "Backstage Passes"
+		when "backstage passes"
 			BackstagePassesUpdater.new
-		when "Sulfuras"
+		when "sulfuras"
 			SulfurasUpdater.new
+		when "conjured"
+			ConjuredUpdater.new
 		else
 			NormalUpdater.new
 		end
@@ -87,13 +89,20 @@ class  BackstagePassesUpdater < AgedBrieUpdater
 		quality_loss = (- item.quality) if item.sell_in < 0
 	end
 	
-	
 end
 
 class  SulfurasUpdater < NormalUpdater
 	
 	def updateItem(item)
 		item
+	end
+end
+
+class  ConjuredUpdater < NormalUpdater
+	
+	def get_quality_loss_multiplier(item)
+		qLoss = super * 2
+		qLoss
 	end
 end
 ######### DO NOT CHANGE BELOW #########
