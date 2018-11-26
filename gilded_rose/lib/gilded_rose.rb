@@ -34,7 +34,7 @@ class  NormalUpdater
 	end
 	
 	def update_quality(item)
-		item.quality += (get_quality_loss(item) * get_quality_loss_multiplier(item)) if item.quality > 0 
+		item.quality += (get_quality_loss(item) * get_quality_loss_multiplier(item)) 
 		normalize_item(item)
 	end
 	
@@ -78,15 +78,20 @@ class  AgedBrieUpdater < NormalUpdater
 	def get_quality_loss(item=nil)
 		1
 	end
+	
+	def get_quality_loss_multiplier(item)
+		1
+	end
 end
 
 class  BackstagePassesUpdater < AgedBrieUpdater
 	
 	def get_quality_loss(item=nil)
-		quality_loss = super.get_quality_loss
-		quality_loss += 1 if item.quality <= 10
-		quality_loss += 1 if item.quality <= 5
+		quality_loss = super
+		quality_loss += 1 if item.sell_in < 10
+		quality_loss += 1 if item.sell_in < 5
 		quality_loss = (- item.quality) if item.sell_in < 0
+		quality_loss
 	end
 	
 end
