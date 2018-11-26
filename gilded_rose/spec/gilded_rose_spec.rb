@@ -10,6 +10,7 @@ describe "#update_quality" do
 
     before { update_quality([item]) }
 	
+	# General properties of items
 	shared_examples "normal item" do
 		it "quality should not be negative" do
 		  expect(item.quality).to be > 0 
@@ -20,6 +21,7 @@ describe "#update_quality" do
 		end
 	end
 	
+	# common properties aged brie and backstage passes
 	shared_examples "aged brie" do
 		it "quantity should increase by 1" do
 		  expect(item.quality).to eq(49)
@@ -34,6 +36,7 @@ describe "#update_quality" do
 		end
 	end
 	
+	# NORMAL ITEM
 	context "when normal item" do		
 		
 		it_behaves_like 'normal item'		
@@ -51,6 +54,7 @@ describe "#update_quality" do
 		end
 	end
 	
+	# AGED BRIE 
 	context "when aged brie item" do		
 		let(:name) { "Aged Brie" }		
 		let(:initial_quality) { 48 }
@@ -60,6 +64,7 @@ describe "#update_quality" do
 		
 	end
 	
+	# BACKSTAGE PASSES
 	context "when backstage passes item" do		
 		let(:name) { "Backstage Passes" }
 		let(:initial_sell_in) {13}
@@ -93,6 +98,7 @@ describe "#update_quality" do
 		end
 	end
 	
+	# CONJURED
 	context "when conjured" do		
 		let(:name) { "Conjured" }	
 		it_behaves_like 'normal item'		
@@ -110,7 +116,7 @@ describe "#update_quality" do
 		end
 	end
 	
-	
+	#SULFURAS
 	context "when Sulfuras item" do
 		let(:name) { "Sulfuras" }
 		let(:initial_quality) {80}
@@ -120,6 +126,7 @@ describe "#update_quality" do
 	end
   end
 
+  # MULTIPLE ITEMS
   context "with multiple items" do
     let(:items) {
       [

@@ -5,6 +5,7 @@ def update_quality(items)
   end
 end
 
+# Factory Class
 class ItemUpdaterFactory
 	def self.getUpdater(name)		
 		case name.downcase
@@ -30,11 +31,11 @@ class  NormalUpdater
 	end
 	
 	def update_sell_in(item)
-		item.sell_in += get_sell_in_loss
+		item.sell_in += get_sell_in_degrade
 	end
 	
 	def update_quality(item)
-		item.quality += (get_quality_loss(item) * get_quality_loss_multiplier(item)) 
+		item.quality += (get_quality_degrade(item) * get_quality_degrade_multiplier(item)) 
 		normalize_item(item)
 	end
 	
@@ -44,29 +45,21 @@ class  NormalUpdater
 		item
 	end
 	
-	# def get_modified_quality(current_quality)
-		# current_quality + get_quality_loss > getQualityMax
-	# end
-	
-	def get_sell_in_loss
+	def get_sell_in_degrade
 		-1
 	end
 	
-	def get_quality_loss(item=nil)
+	def get_quality_degrade(item=nil)
 		-1
 	end
 	
-	def get_quality_loss_multiplier(item)
+	def get_quality_degrade_multiplier(item)
 		isExpired(item) ? 2 : 1
 	end
 	
 	def isExpired(item)
 		item.sell_in < 0
 	end
-	
-	# def isPerfectQuality(item)
-		# item.quality >= getQualityMax
-	# end
 	
 	def getQualityMax
 		50
@@ -75,18 +68,18 @@ end
 
 class  AgedBrieUpdater < NormalUpdater
 	
-	def get_quality_loss(item=nil)
+	def get_quality_degrade(item=nil)
 		1
 	end
 	
-	def get_quality_loss_multiplier(item)
+	def get_quality_degrade_multiplier(item)
 		1
 	end
 end
 
 class  BackstagePassesUpdater < AgedBrieUpdater
 	
-	def get_quality_loss(item=nil)
+	def get_quality_degrade(item=nil)
 		quality_loss = super
 		quality_loss += 1 if item.sell_in < 10
 		quality_loss += 1 if item.sell_in < 5
@@ -105,7 +98,7 @@ end
 
 class  ConjuredUpdater < NormalUpdater
 	
-	def get_quality_loss_multiplier(item)
+	def get_quality_degrade_multiplier(item)
 		qLoss = super * 2
 		qLoss
 	end
